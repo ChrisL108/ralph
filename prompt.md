@@ -77,6 +77,20 @@ Only update AGENTS.md if you have **genuinely reusable knowledge** that would he
 - Keep changes focused and minimal
 - Follow existing code patterns
 
+## Dependency Versions
+
+When adding new dependencies or scaffolding projects:
+
+1. **Search for current versions** - Use web search to find the latest stable version before specifying version numbers
+2. **Prefer latest stable** - Use the newest stable release, not outdated versions from training data
+3. **Use caret ranges** - Specify versions as `^X.Y.Z` to allow compatible updates
+4. **Check existing constraints** - If the project already has related dependencies, ensure compatibility
+
+Examples:
+- Before adding Next.js, search "next.js latest version" to get the current release
+- Before adding React, check if the project has React already and match major version
+- For new projects, always verify framework versions are current
+
 ## Browser Testing (Required for Frontend Stories)
 
 For any story that changes UI, you MUST verify it works in the browser:
