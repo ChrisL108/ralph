@@ -93,7 +93,7 @@ List assumptions that this PRD is based upon. This section is critical for AI ag
 Each story needs:
 - **Title:** Short descriptive name
 - **Description:** "As a [user], I want [feature] so that [benefit]"
-- **Acceptance Criteria:** Verifiable checklist of what "done" means
+- **Acceptance Criteria:** Verifiable checklist of what "done" means. If the description mentions a specific library, SDK, or framework, at least one acceptance criterion must explicitly reference it by name.
 
 Each story should be small enough to implement in one focused session.
 
