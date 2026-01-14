@@ -13,6 +13,25 @@ Originally built for [Amp](https://ampcode.com) by [@ryancarson](https://x.com/r
 - A git repository for your project
 - (Optional) Gemini CLI and/or Codex CLI for multi-agent capabilities
 
+## Quick Start
+
+```bash
+# 1. Copy ralph to your project
+mkdir -p scripts/ralph
+cp /path/to/ralph/{ralph.sh,prompt.md} scripts/ralph/
+cp /path/to/ralph/monitor.sh scripts/
+chmod +x scripts/ralph/ralph.sh scripts/monitor.sh
+
+# 2. Create prd.json (manually or via the prd + ralph skills)
+#    See "Workflow" section below for skill-based approach
+
+# 3. Run ralph (Terminal 1)
+./scripts/ralph/ralph.sh 20
+
+# 4. Watch progress (Terminal 2)
+./scripts/monitor.sh
+```
+
 ## Setup
 
 ### Option 1: Copy to your project
@@ -24,7 +43,8 @@ Copy the ralph files into your project:
 mkdir -p scripts/ralph
 cp /path/to/ralph/ralph.sh scripts/ralph/
 cp /path/to/ralph/prompt.md scripts/ralph/
-chmod +x scripts/ralph/ralph.sh
+cp /path/to/ralph/monitor.sh scripts/
+chmod +x scripts/ralph/ralph.sh scripts/monitor.sh
 ```
 
 ### Option 2: Install skills globally
@@ -62,11 +82,17 @@ This creates `prd.json` with user stories structured for autonomous execution.
 
 ### 3. Run Ralph
 
+**Terminal 1 - Run the loop:**
 ```bash
-./scripts/ralph/ralph.sh [max_iterations]
+./scripts/ralph/ralph.sh 20
 ```
 
-Default is 10 iterations.
+**Terminal 2 - Monitor progress:**
+```bash
+./scripts/monitor.sh
+```
+
+The monitor shows real-time status: story completion (⬜→✅), recent commits, and progress log updates. Refreshes every 10 seconds.
 
 Ralph will:
 1. Create a feature branch (from PRD `branchName`)
@@ -84,6 +110,7 @@ Ralph will:
 |------|---------|
 | `ralph.sh` | The bash loop that spawns fresh Claude instances |
 | `prompt.md` | Instructions given to each Claude instance |
+| `monitor.sh` | Real-time progress dashboard (run in separate terminal) |
 | `prd.json` | User stories with `passes` status (the task list) |
 | `prd.json.example` | Example PRD format for reference |
 | `progress.txt` | Append-only learnings for future iterations |
@@ -168,14 +195,18 @@ When all stories have `passes: true`, Ralph outputs `<promise>COMPLETE</promise>
 
 ## Debugging
 
-Check current state:
+**Real-time monitoring:**
+```bash
+./scripts/monitor.sh
+```
 
+**Manual inspection:**
 ```bash
 # See which stories are done
-cat prd.json | jq '.userStories[] | {id, title, passes}'
+cat scripts/ralph/prd.json | jq '.userStories[] | {id, title, passes}'
 
 # See learnings from previous iterations
-cat progress.txt
+cat scripts/ralph/progress.txt
 
 # Check git history
 git log --oneline -10
